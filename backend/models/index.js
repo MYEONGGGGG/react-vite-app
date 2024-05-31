@@ -4,7 +4,7 @@ import { Sequelize } from "sequelize";
 import dotenv from "dotenv";
 
 // 환경변수 호출
-dotenv.config();
+dotenv.config({ path: '../.env' });
 
 // DBMS 연결 정보
 const config = {
