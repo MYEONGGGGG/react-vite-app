@@ -1,15 +1,12 @@
 /**
  * task와 관련된 API */
 import express from 'express';
+import taskController from "../controller/task.controller.js";
 const router = express.Router();
 
-router.post('/', (req, res) => {
-    res.send("create task");
-});
+router.post('/', taskController.createTask);
 
-router.get('/', (req, res) => {
-    res.send("get tasks");
-});
+router.get('/', taskController.getTaskList);
 
 router.put('/:id', (req, res) => {
     res.send("update task");

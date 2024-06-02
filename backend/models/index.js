@@ -4,7 +4,7 @@ import { Sequelize } from "sequelize";
 import dotenv from "dotenv";
 
 // 환경변수 호출
-dotenv.config({ path: '../.env' });
+dotenv.config({ path: '../.env' }); // 최상위 경로(react-vite-app) 설정
 
 // DBMS 연결 정보
 const config = {
