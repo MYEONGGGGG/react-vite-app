@@ -3,9 +3,13 @@
 import express from 'express';
 import indexRouter from "./routes/index.js";
 import checkTables from "./models/checkTables.js";
+import cors from "cors";
 
 const app = express();
 const port = process.env.BACKEND_PORT || 3000; // .env에 설정한 백엔드 포트가 없을 경우, 기본 포트인 3000으로 연결한다.
+
+// Enable All Cors Requests
+app.use(cors());
 
 // # express 내장 미들웨어 // express 4.16 이후 버전부터 bodyParser 기능이 내장되어있다.
 app.use(express.json());

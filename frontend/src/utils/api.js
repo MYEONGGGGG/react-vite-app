@@ -3,7 +3,7 @@ import axios from "axios";
 // 기본 API 인스턴스 생성
 const api = axios.create({
     // 백엔드 API의 기본 URL
-    baseURL: `${process.env.REACT_APP_BACKEND_URL}/api`,
+    baseURL: `${import.meta.env.VITE_BACKEND_URL}/api`,
     headers: {
         "Content-Type": "application/json",
     },
@@ -12,7 +12,7 @@ const api = axios.create({
 // 요청 인터셉터 // 요청을 가로채서 처리할 수 있도록 하는 함수
 api.interceptors.request.use(
     (request) => {
-        console.log("Starting Request", request);
+        // console.log("Starting Request", request);
         return request;
     },
     function (error) {
@@ -23,7 +23,7 @@ api.interceptors.request.use(
 // 응답 인터셉터 // 응답을 가로채서 처리할 수 있도록 하는 함수
 api.interceptors.response.use(
     (response) => {
-        console.log("Response:", response);
+        // console.log("Response:", response);
         return response;
     },
     function (error) {
