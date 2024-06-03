@@ -11,17 +11,16 @@ function App() {
     const [todoList, setTodoList] = useState([]);
     const [todoValue, setTodoValue] = useState("");
 
+    // 추가
     const addTask = async () => {
       try {
-          console.log('todoValue: ' + todoValue);
-
           const response = await api.post('/tasks', {
               task: todoValue,
               isComplete: false
           });
 
-          // 응답 결과가 정상일 경우
-          if (response.status === 200) {
+          // 응답 결과가 정상일 경우 (상태 코드가 200 또는 201인 경우)
+          if (response.status === 200 || response.status === 201) {
               console.log('success');
               setTodoValue("");
               getTasks();
@@ -33,6 +32,7 @@ function App() {
       }
     };
 
+    // 조회
     const getTasks = async () => {
         const response = await api.get('/tasks');
         setTodoList(response.data.data);
