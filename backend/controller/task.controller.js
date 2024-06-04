@@ -49,39 +49,39 @@ taskController.getTaskList = async (req, res) => {
 // };
 
 // Task 업데이트
-// taskController.updateTask = async (req, res) => {
-//     try {
-//         const { id } = req.params;
-//         const { task, isComplete } = req.body;
-//         const [updated] = await Task.update({ task, isComplete }, {
-//             where: { id }
-//         });
-//         if (updated) {
-//             const updatedTask = await Task.findByPk(id);
-//             res.status(200).json(updatedTask);
-//         } else {
-//             res.status(404).json({ error: 'Task not found' });
-//         }
-//     } catch (error) {
-//         res.status(400).json({ error: error.message });
-//     }
-// };
+taskController.updateTask = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { task, isComplete } = req.body;
+        const [updated] = await Task.update({ task, isComplete }, {
+            where: { id }
+        });
+        if (updated) {
+            const updatedTask = await Task.findByPk(id);
+            res.status(200).json(updatedTask);
+        } else {
+            res.status(404).json({ error: 'Task not found' });
+        }
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+};
 
 // Task 삭제
-// taskController.deleteTask = async (req, res) => {
-//     try {
-//         const { id } = req.params;
-//         const deleted = await Task.destroy({
-//             where: { id }
-//         });
-//         if (deleted) {
-//             res.status(204).send();
-//         } else {
-//             res.status(404).json({ error: 'Task not found' });
-//         }
-//     } catch (error) {
-//         res.status(400).json({ error: error.message });
-//     }
-// };
+taskController.deleteTask = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deleted = await Task.destroy({
+            where: { id }
+        });
+        if (deleted) {
+            res.status(204).send();
+        } else {
+            res.status(404).json({ error: 'Task not found' });
+        }
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+};
 
 export default taskController;
