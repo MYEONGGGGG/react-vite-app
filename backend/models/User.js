@@ -1,5 +1,10 @@
 import { DataTypes } from 'sequelize';
 import sequelize from "./index.js";
+import jwt from 'jsonwebtoken';
+import dotenv from "dotenv";
+
+// 환경변수 호출
+dotenv.config({ path: '../.env' }); // 최상위 경로(react-vite-app) 설정
 
 const User = sequelize.define("User", {
     name: {
@@ -20,5 +25,11 @@ const User = sequelize.define("User", {
     // 유저 생성일시
     timestamps: true
 });
+
+// token method(postgreSQL, sequelize 기준)
+User.prototype.generateAuthToken = function() {
+    const token = jwt.sign({ id: this.id }, process.env.JWT_SECRET);
+    return token;
+};
 
 export default User;

@@ -1,5 +1,6 @@
 import sequelize from './index.js';
 import Task from './Task.js';
+import User from './User.js';
 
 const checkTables = async () => {
     try {
@@ -8,6 +9,17 @@ const checkTables = async () => {
 
         const queryInterface = sequelize.getQueryInterface();
         const tables = await queryInterface.showAllTables();
+
+        console.log(tables);
+
+        // users 테이블이 존재하는지 확인
+        if (!tables.includes('users')) {
+            // users 테이블이 존재하지 않으면 생성
+            await User.sync();
+            console.log('SUCCESS: users 테이블이 생성되었습니다.');
+        } else {
+            console.log('INFO: users 테이블이 이미 존재합니다.');
+        }
 
         // tasks 테이블이 존재하는지 확인
         if (!tables.includes('tasks')) {
