@@ -9,8 +9,8 @@ userController.createUser = async (req, res) => {
     try {
         const { name, password, email } = req.body;
 
-        // Sequelize 방식으로 특정 속성 제외
-        const user = await User.findOne({ email });
+        // Sequelize 방식으로 이메일 주소 찾기
+        const user = await User.findOne({ where: { email } });
 
         const salt = bcrypt.genSaltSync(saltRounds);
         const hash = bcrypt.hashSync(password, salt);
@@ -51,7 +51,7 @@ userController.loginWithEmail = async (req, res) => {
         }
         throw new Error("아이디 또는 비밀번호가 일치하지 않습니다.");
     } catch (error) {
-        res.status(400).json({ status: "fail", error: error.message });
+        res.status(400).json({ status: "fail", message: error.message });
     }
 };
 
