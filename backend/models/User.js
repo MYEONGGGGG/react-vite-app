@@ -26,9 +26,19 @@ const User = sequelize.define("User", {
     timestamps: true
 });
 
+// 필요한 정보만 추출 // this._doc => this.get()
+User.prototype.toJSON = function() {
+    // 필요한 정보만 추출
+    const obj = Object.assign({}, this.get());
+    // 비밀번호를 제외
+    delete obj.password;
+    // 그 외 정보만 내보낸다.
+    return obj;
+};
+
 // token method(postgreSQL, sequelize 기준)
-User.prototype.generateAuthToken = function() {
-    const token = jwt.sign({ id: this.id }, process.env.JWT_SECRET);
+User.prototype.generateToken = function() {
+    const token = jwt.sign({ id: this.id }, process.env.JWT_SECRET_KEY, { expiresIn: '1d' });
     return token;
 };
 

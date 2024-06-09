@@ -4,10 +4,14 @@ import bcrypt from "bcrypt";
 const saltRounds = 10;
 const userController = {};
 
+// 유저 생성
 userController.createUser = async (req, res) => {
     try {
         const { name, password, email } = req.body;
+
+        // Sequelize 방식으로 특정 속성 제외
         const user = await User.findOne({ email });
+
         const salt = bcrypt.genSaltSync(saltRounds);
         const hash = bcrypt.hashSync(password, salt);
         // console.log('hash(암호화):', hash);
@@ -26,10 +30,14 @@ userController.createUser = async (req, res) => {
     }
 };
 
+// 이메일 로그인
 userController.loginWithEmail = async (req, res) => {
     try {
         const { password, email } = req.body;
-        const user = await User.findOne({ email });
+        const user = await User.findOne({
+            where: { email },
+            attributes: { exclude: ['createdAt', 'updatedAt'] }
+        });
 
         if (user) {
             // 사용자가 입력한 비밀번호화 db 비밀번호 값을 비교
@@ -37,9 +45,11 @@ userController.loginWithEmail = async (req, res) => {
 
             // 비밀번호가 맞을 경우
             if (isMatch) {
-
+                const token = user.generateToken();
+                return res.status(200).json({ status: "success", user, token });
             }
         }
+        throw new Error("아이디 또는 비밀번호가 일치하지 않습니다.");
     } catch (error) {
         res.status(400).json({ status: "fail", error: error.message });
     }
