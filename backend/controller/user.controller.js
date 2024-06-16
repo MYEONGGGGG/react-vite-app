@@ -55,4 +55,18 @@ userController.loginWithEmail = async (req, res) => {
     }
 };
 
+userController.getUser = async (req, res) => {
+    try {
+        const { userId } = req;
+        const user = User.findOne(userId);
+
+        if (!user) {
+            throw new Error("cannot find user");
+        }
+        res.status(200).json({ status: "success", user });
+    } catch (e) {
+        res.status(400).json({ status: "fail", message: e.message });
+    }
+};
+
 export default userController;
