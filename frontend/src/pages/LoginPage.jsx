@@ -2,15 +2,13 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import api from "../utils/api.js";
-import { useNavigate } from "react-router-dom";
 
-const LoginPage = () => {
+const LoginPage = ({ user, setUser }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
-    const [user, setUser] = useState(null);
     const navigate = useNavigate();
 
     const handleLogin = async (event) => {
@@ -31,6 +29,11 @@ const LoginPage = () => {
           setError(e.message);
       }
     };
+
+    // 유저 정보가 존재한다면
+    if (user) {
+        return <Navigate to="/" />
+    }
 
     return (
         <Container>

@@ -19,19 +19,17 @@ authController.authenticate = (req, res, next) => {
         const token = tokenString.replace("Bearer ", "");
 
         jwt.verify(token, process.env.JWT_SECRET_KEY, (error, payload) => {
-            console.log('jwt verify: ', payload);
+        // jwt.verify(token, "myeong_eee_key", (error, payload) => { // 하드 코딩된 키로 설정
             if (error) {
-                console.log('JWT Verify Error: ', error);
+                console.log('[JWT Verify Error]', error);
                 throw new Error("Invalid token");
             }
-
-            console.log('Payload: ', payload);
 
             if (!payload) {
                 throw new Error("Payload is missing");
             }
 
-            req.userId = payload._id;
+            req.userId = payload.id;
             next(); // user.api.js => userController.getUser 로 이동
         });
     } catch (e) {

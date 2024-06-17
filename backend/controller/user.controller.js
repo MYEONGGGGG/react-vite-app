@@ -4,6 +4,15 @@ import bcrypt from "bcrypt";
 const saltRounds = 10;
 const userController = {};
 
+/**
+ * Sequelize 에서 조회 시 사용
+ * - findOne
+ *   특정 조건을 만족하는 첫 번째 레코드를 찾음
+ *   주로 조건에 맞는 첫 번째 레코드를 찾기 위해 사용
+ * - findByPk
+ *   기본 키를 사용하여 레코드를 찾음
+ * */
+
 // 유저 생성
 userController.createUser = async (req, res) => {
     try {
@@ -58,7 +67,7 @@ userController.loginWithEmail = async (req, res) => {
 userController.getUser = async (req, res) => {
     try {
         const { userId } = req;
-        const user = User.findOne(userId);
+        const user = await User.findByPk(userId);
 
         if (!user) {
             throw new Error("cannot find user");

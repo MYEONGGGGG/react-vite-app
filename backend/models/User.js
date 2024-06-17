@@ -6,8 +6,6 @@ import dotenv from "dotenv";
 // 환경변수 호출
 dotenv.config({ path: '../.env' }); // 최상위 경로(react-vite-app) 설정
 
-console.log('[dotenv config] ', process.env.JWT_SECRET_KEY);
-
 const User = sequelize.define("User", {
     name: {
         type: DataTypes.STRING,
@@ -35,13 +33,18 @@ User.prototype.toJSON = function() {
     // 비밀번호를 제외
     delete obj.password;
     // 그 외 정보만 내보낸다.
+    // console.log(obj);
     return obj;
 };
 
 // token method(postgreSQL, sequelize 기준)
 User.prototype.generateToken = function() {
-    console.log('Generating token with secret key:', process.env.JWT_SECRET_KEY); // 비밀 키 로그 출력
-    return jwt.sign({ id: this.id }, process.env.JWT_SECRET_KEY, { expiresIn: '1d' });
+    // const token = jwt.sign({ id: this.id }, "myeong_eee_key", { expiresIn: '1d' }); // 비밀 키 하드코딩
+    console.log('[JWT Generate Key]', process.env.JWT_SECRET_KEY);
+
+    const token = jwt.sign({ id: this.id }, process.env.JWT_SECRET_KEY, { expiresIn: '1d' });
+    console.log('[Generated Token]', token);
+    return token;
 };
 
 export default User;
