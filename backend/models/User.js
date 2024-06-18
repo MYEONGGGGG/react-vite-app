@@ -6,6 +6,8 @@ import dotenv from "dotenv";
 // 환경변수 호출
 dotenv.config({ path: '../.env' }); // 최상위 경로(react-vite-app) 설정
 
+console.log('[dotenv config - User.js] ', process.env.JWT_SECRET_KEY);
+
 const User = sequelize.define("User", {
     name: {
         type: DataTypes.STRING,
