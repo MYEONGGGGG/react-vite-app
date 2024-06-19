@@ -6,9 +6,12 @@ import dotenv from "dotenv";
 // 환경변수 호출
 dotenv.config({ path: '../.env' }); // 최상위 경로(react-vite-app) 설정
 
-console.log('[dotenv config - User.js] ', process.env.JWT_SECRET_KEY);
-
 const User = sequelize.define("User", {
+    id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true
+    },
     name: {
         type: DataTypes.STRING,
         require: true,
@@ -24,7 +27,7 @@ const User = sequelize.define("User", {
 }, {
     // 테이블명 지정
     tableName: 'users',
-    // 유저 생성일시
+    // 유저 생성일시 // createdAt, updatedAt 필드를 자동으로 생성한다.
     timestamps: true
 });
 
@@ -41,9 +44,9 @@ User.prototype.toJSON = function() {
 
 // token method(postgreSQL, sequelize 기준)
 User.prototype.generateToken = function() {
-    // const token = jwt.sign({ id: this.id }, "myeong_eee_key", { expiresIn: '1d' }); // 비밀 키 하드코딩
-    console.log('[JWT Generate Key]', process.env.JWT_SECRET_KEY);
+    // console.log('[JWT Generate Key]', process.env.JWT_SECRET_KEY);
 
+    // 로그인한 유저의 토큰키를 생성
     const token = jwt.sign({ id: this.id }, process.env.JWT_SECRET_KEY, { expiresIn: '1d' });
     console.log('[Generated Token]', token);
     return token;

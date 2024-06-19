@@ -19,7 +19,6 @@ authController.authenticate = (req, res, next) => {
         const token = tokenString.replace("Bearer ", "");
 
         jwt.verify(token, process.env.JWT_SECRET_KEY, (error, payload) => {
-        // jwt.verify(token, "myeong_eee_key", (error, payload) => { // 하드 코딩된 키로 설정
             if (error) {
                 console.log('[JWT Verify Error]', error);
                 throw new Error("Invalid token");
@@ -31,6 +30,7 @@ authController.authenticate = (req, res, next) => {
 
             req.userId = payload.id;
             next(); // user.api.js => userController.getUser 로 이동
+                    // task.api.js => taskController.createTask 로 이동
         });
     } catch (e) {
         res.status(401).json({ status: "fail", message: e.message });

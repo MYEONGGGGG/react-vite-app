@@ -1,4 +1,5 @@
 import Task from '../models/Task.js';
+import User from '../models/User.js';
 
 /**
  * HTTP CODE
@@ -16,7 +17,9 @@ const taskController = {};
 taskController.createTask = async (req, res) => {
     try {
         const { task, isComplete } = req.body;
-        const newTask = await Task.create({ task, isComplete });
+        const { userId } = req;
+
+        const newTask = await Task.create({ task, isComplete, authorId: userId });
         res.status(201).json({ status: "success", data: newTask });
     } catch (error) {
         res.status(400).json({ status: "fail", error: error.message });
@@ -24,29 +27,22 @@ taskController.createTask = async (req, res) => {
 };
 
 // Task 목록 조회
+// Task와 Author를 포함하여 Task의 목록을 가져오는 함수
 taskController.getTaskList = async (req, res) => {
     try {
-        const taskList = await Task.findAll();
+        // include 옵션을 사용하여 Task 모델과 관계되어 있는 User 모델을 포함하여 데이터를 조회한다.
+        const taskList = await Task.findAll({
+            include: [{
+                model: User, // User 모델을 포함
+                as: 'author' // author 라는 별칭으로 포함
+            }]
+        });
+
         res.status(200).json({ status: "success", data: taskList });
     } catch (error) {
         res.status(400).json({ status: "fail", error: error.message });
     }
 };
-
-// Task 조회 (id 기준)
-// taskController.getTaskById = async (req, res) => {
-//     try {
-//         const { id } = req.params;
-//         const task = await Task.findByPk(id);
-//         if (task) {
-//             res.status(200).json(task);
-//         } else {
-//             res.status(404).json({ error: 'Task not found' });
-//         }
-//     } catch (error) {
-//         res.status(400).json({ error: error.message });
-//     }
-// };
 
 // Task 업데이트
 taskController.updateTask = async (req, res) => {

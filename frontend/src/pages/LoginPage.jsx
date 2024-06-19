@@ -17,9 +17,15 @@ const LoginPage = ({ user, setUser }) => {
       try {
           const response = await api.post(`/user/login`, { email, password });
 
+          // 로그인이 정상일 경우
           if (response.status === 200) {
+              // 해당 유저의 정보를 가져온다.
               setUser(response.data.user);
+              // console.log('====LoginPage-user login data====')
+              // console.log(response.data.user);
               sessionStorage.setItem("token", JSON.stringify(response.data.token));
+              // console.log('====LoginPage-user token data====')
+              // console.log(response.data.token);
 
               api.defaults.headers["authorization"] = "Bearer " + response.data.token;
               navigate("/");

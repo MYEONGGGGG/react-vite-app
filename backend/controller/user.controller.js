@@ -54,7 +54,10 @@ userController.loginWithEmail = async (req, res) => {
 
             // 비밀번호가 맞을 경우
             if (isMatch) {
+                // 토큰을 생성
                 const token = user.generateToken();
+
+                // 유저 정보와 토큰값을 반환
                 return res.status(200).json({ status: "success", user, token });
             }
         }

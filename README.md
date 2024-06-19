@@ -34,3 +34,9 @@ jwt 토큰
      4-1. 토큰 생성 코드 = User.js > User.prototype.generateToken...
      4-2. 토큰 검증 코드 = auth.controller.js > authController.authenticate...
 ````
+
+### 24.6.18 JWT Token Error 해결
+````
+테스트 코드를 작성하여 토큰 생성과 검증을 진행하였으며
+그 과정에서 실제 운영하려는 소스 코드에서 토큰 값이 불일치함을 발견함. 
+````

@@ -2,11 +2,14 @@ import sequelize from './index.js';
 import Task from './Task.js';
 import User from './User.js';
 
+// 데이터베이스 테이블을 체크하고 생성이 필요할 경우 테이블을 생성한다.
 const checkTables = async () => {
     try {
+        // 데이터베이스 연결 확인
         await sequelize.authenticate();
         console.log('SUCCESS: DBMS 연결을 성공하였습니다.');
 
+        // 쿼리인터페이스 확인 및 테이블 목록 가져오기
         const queryInterface = sequelize.getQueryInterface();
         const tables = await queryInterface.showAllTables();
 
