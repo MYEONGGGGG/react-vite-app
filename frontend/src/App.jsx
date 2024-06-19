@@ -5,10 +5,12 @@ import LoginPage from "./pages/LoginPage.jsx";
 import TodoPage from "./pages/TodoPage";
 import RegisterPage from "./pages/RegisterPage";
 import PrivateRoute from "./route/PrivateRoute";
+import Navbar from "./components/Navbar.jsx";
 import {useEffect, useState} from "react";
 import api from "./utils/api.js";
 
 function App() {
+    // user 정보 관리
     const [user, setUser] = useState(null);
 
     // token 정보로 유저 정보를 가져온다.
@@ -32,13 +34,16 @@ function App() {
     }, []);
 
     return (
-        <Routes>
-            <Route path="/" element={
-                <PrivateRoute user={ user }><TodoPage /></PrivateRoute>
-            } />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/login" element={<LoginPage user={ user } setUser={ setUser } />} />
-        </Routes>
+        <div>
+            <Navbar user={user} setUser={setUser} />
+            <Routes>
+                <Route path="/" element={
+                    <PrivateRoute user={ user }><TodoPage /></PrivateRoute>
+                } />
+                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/login" element={<LoginPage user={ user } setUser={ setUser } />} />
+            </Routes>
+        </div>
     );
 }
 
