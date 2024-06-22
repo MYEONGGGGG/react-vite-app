@@ -1,13 +1,15 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Nav, Container } from "react-bootstrap";
+import useStore from "../store/store.js";
 
-const Navbar = ({ user, setUser }) => {
+const Navbar = () => {
     const navigate = useNavigate();
+    const { user, resetUser } = useStore();
 
     const handleLogout = () => {
       sessionStorage.removeItem('token');
-      setUser(null);
+      resetUser();
       navigate('/login');
     };
 

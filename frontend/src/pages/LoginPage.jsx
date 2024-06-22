@@ -4,12 +4,14 @@ import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import api from "../utils/api.js";
+import useStore from "../store/store.js";
 
-const LoginPage = ({ user, setUser }) => {
+const LoginPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
+    const { user, setUser } = useStore();
 
     const handleLogin = async (event) => {
       event.preventDefault();
@@ -21,12 +23,7 @@ const LoginPage = ({ user, setUser }) => {
           if (response.status === 200) {
               // 해당 유저의 정보를 가져온다.
               setUser(response.data.user);
-              // console.log('====LoginPage-user login data====')
-              // console.log(response.data.user);
               sessionStorage.setItem("token", JSON.stringify(response.data.token));
-              // console.log('====LoginPage-user token data====')
-              // console.log(response.data.token);
-
               api.defaults.headers["authorization"] = "Bearer " + response.data.token;
               navigate("/");
           }
