@@ -21,7 +21,8 @@
     "react-router-dom": "^6.23.1",
     "react-scripts": "^5.0.1",
     "react-vite-app": "file:..",
-    "web-vitals": "^4.0.1"
+    "web-vitals": "^4.0.1",
+    "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
